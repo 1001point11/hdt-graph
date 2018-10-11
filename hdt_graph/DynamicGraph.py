@@ -24,7 +24,7 @@ References:
       July 1999. 502–536.
 """
 
-from HDTGraph.ETTree import ETTree, ETTreeNode, DGNode
+from .ETTree import ETTree, ETTreeNode, DGNode
 
 
 __author__ = "David Schaller"

@@ -13,7 +13,7 @@ References:
       July 1999. 502–536.
 """
 
-from HDTGraph.DoublyLinkedList import DLList
+from .DoublyLinkedList import DLList
 
 
 __author__ = "David Schaller"
