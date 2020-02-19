@@ -1,5 +1,7 @@
 # HDT poly-logarithmic fully-dynamic connectivity algorithm
 
+[![pypi version](https://img.shields.io/badge/pypi-v0.0.1-blue.svg)](https://pypi.org/project/hdtgraph/0.0.1/)
+
 Implementation of the dynamic graph data structure described by Holm,
 de Lichtenberg and Thorup in 2001 (HDT algorithm).
 

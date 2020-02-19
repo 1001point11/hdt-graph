@@ -3,7 +3,7 @@ __pycache__/
 .idea/
 .spyproject/
 *~
-hdt-graph.egg-info/
+hdtgraph.egg-info/
 build/
 dist/
 
