@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="hdt-graph",
+    name="hdtgraph",
     version="0.0.1",
     author="David Schaller",
     author_email="david@0x002A.com",

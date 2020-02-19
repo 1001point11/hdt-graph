@@ -12,7 +12,7 @@ References:
       July 1999. 502–536.
 """
 
-from .DoublyLinkedList import DLList
+from hdtgraph.DoublyLinkedList import DLList
 
 
 __author__ = "David Schaller"
