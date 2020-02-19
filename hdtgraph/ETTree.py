@@ -94,6 +94,7 @@ class ETTree:
     __slots__ = ['root', 'nodedict', 'start', 'end', 'current_occ']
     
     def __init__(self, root=None, nodedict=None, start=None, end=None):
+        
         self.root = root                            # root of the ET-Tree
         if self.root:
             self.root.ett = self
@@ -106,11 +107,13 @@ class ETTree:
     
     
     def __iter__(self):
+        
         self.current_occ = self.start
         return self
 
 
     def __next__(self):
+        
         if self.current_occ:
             x = self.current_occ
             self.current_occ = self.current_occ.next_occ
@@ -120,6 +123,7 @@ class ETTree:
       
     
     def __len__(self):
+        
         if self.root:
             return self.root.size
         else:
@@ -127,6 +131,7 @@ class ETTree:
     
     
     def __contains__(self, item):
+        
         if item not in self.nodedict:
             return False
         root = self.nodedict[item].active_occ.get_root()
@@ -134,6 +139,7 @@ class ETTree:
     
     
     def get_size(self):
+        
         if self.root:
             return self.root.size
         else:
@@ -141,6 +147,7 @@ class ETTree:
     
     
     def insert(self, value):
+        
         if not self.root:
             self.root = ETTreeNode(value)
             return
@@ -150,6 +157,7 @@ class ETTree:
         
     
     def _insert(self, value, node):
+        
         if value == node.value:
             return
         elif value < node.value:
@@ -171,6 +179,7 @@ class ETTree:
     
     
     def delete_node(self, node, update_refs=False):
+        
         if node.left and node.right:
             subst = self.smallest_in_subtree(node.right)    # replace by smallest
             to_rebalance = subst.parent                     # in right subtree
@@ -255,13 +264,15 @@ class ETTree:
             
     
     @staticmethod
-    def initialize_from_tree(tree, nodedict=None, value_only=False):
+    def initialize_from_tree(tree, nodedict=None):
         """Initialize the ET tree from an Euler tour of a rooted tree."""
+        
         if not tree:
             return
+        
         ett = ETTree(nodedict=nodedict)
         previous = None
-        for occ in tree.euler_generator(value_only=value_only):
+        for occ in tree.euler_generator(id_only=False):
             if occ in ett.nodedict:
                 if ett.nodedict[occ].active_occ:
                     ett_node = ETTreeNode(occ, active=False, prev_occ=previous)
@@ -285,6 +296,7 @@ class ETTree:
     
     def rightinsert(self, new_node):
         """Insert new element that is greater than all previous elements."""
+        
         if not self.root:
             self.root = new_node
             self.root.ett = self
@@ -300,6 +312,7 @@ class ETTree:
     
     
     def rebalance(self, node, stop=None):
+        
         while node:
             self.update_height_size(node)
             balance = node.get_balance()
@@ -323,6 +336,7 @@ class ETTree:
             
             
     def rightrotate(self, y):
+        
         x = y.left
         B = x.right
         if y.parent and (y is y.parent.right):
@@ -340,6 +354,7 @@ class ETTree:
         
         
     def leftrotate(self, x):
+        
         y = x.right
         B = y.left
         if x.parent and (x is x.parent.right):
@@ -357,6 +372,7 @@ class ETTree:
         
     
     def update_height_size(self, node, propagate=False):
+        
         if not node:
             return
         if node.left and node.right:
@@ -376,6 +392,7 @@ class ETTree:
     
     
     def get_root(self, value):
+        
         if value not in self.nodedict:
             print("Could not find node:", value)
             return
@@ -383,6 +400,7 @@ class ETTree:
         
     
     def smallest_in_subtree(self, node):
+        
         current = node
         while current.left:
             current = current.left
@@ -390,6 +408,7 @@ class ETTree:
     
     
     def biggest_in_subtree(self, node):
+        
         current = node
         while current.right:
             current = current.right
@@ -398,6 +417,7 @@ class ETTree:
     
     # obsolete
     def get_first_smaller(self, node):
+        
         first_smaller = None
         if node.left:
             current = node.left
@@ -417,6 +437,7 @@ class ETTree:
     
     # obsolete
     def get_first_greater(self, node):
+        
         first_greater = None
         if node.right:
             current = node.right
@@ -437,6 +458,7 @@ class ETTree:
     def smaller(self, node1, node2):
         """Determines whether occurence 'node1' is smaller than 'node2' with
         respect to the Euler tour."""
+        
         if node1 is node2:
             return False
         path1, path2 = [node1], [node2]
@@ -469,6 +491,7 @@ class ETTree:
     
     def lca(self, node1, node2):
         """Finds the last common ancestor of 2 nodes."""
+        
         if node1 is node2:
             return node1
         path1, path2 = [node1], [node2]
@@ -792,6 +815,7 @@ class ETTree:
         the tours are first rerooted and the merged (+ additional occurrence
         of either 'a' or 'b').
         """
+        
         if not (isinstance(ett1, ETTree) and isinstance(ett2, ETTree)):
             raise TypeError("Parameters must be of type 'ETTree'!")
         ett1 = ett1.reroot(a)
@@ -829,6 +853,7 @@ class ETTree:
         
         Intended for testing purpose.
         """
+        
         def construct_newick(node):
             if not (node.left or node.right):
                 return str(node.value)# + "-" + str(node.size)+ "-" + str(node.active)
@@ -852,6 +877,7 @@ class ETTree:
         Intended for testing purpose. Should return the same result like
         the function ET_to_list_recursive().
         """
+        
         result = []
         for occ in self:
             result.append(occ.value)
@@ -863,6 +889,7 @@ class ETTree:
         
         Intended for testing purpose.
         """
+        
         if not node:
             s = self.ET_to_list_recursive(self.root)
         else:
@@ -883,6 +910,7 @@ class ETTree:
         - the size (nr. of active occurences) is correct in all subtrees
         Intended for testing purpose.
         """
+        
         if not node:
             if not self.root:
                 print("Tree has no root!")
